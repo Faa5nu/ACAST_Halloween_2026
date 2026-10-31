@@ -94,6 +94,46 @@
     input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--green); }
     ol { padding-left: 20px; }
     li { margin-bottom: 10px; }
+
+    /* Estilos para el desplegable de solución */
+    details.solucion-dropdown {
+      background: #141220;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 10px;
+    }
+    details.solucion-dropdown summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--green);
+      font-size: 1.05rem;
+      outline: none;
+    }
+    pre.code-solution {
+      background: #09080d;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #2e2b44;
+      overflow-x: auto;
+      font-family: 'Courier New', Consolas, monospace;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      margin-top: 12px;
+      white-space: pre;
+    }
+    .btn-copy {
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
@@ -227,7 +267,170 @@
     </div>
   </div>
 
+  <!-- SECCIÓN FINAL: MI SOLUCIÓN (DESPLEGABLE) -->
+  <div class="step-card" style="border-left-color: var(--green);">
+    <div class="step-header">
+      <h2 class="step-title" style="color: var(--green);">💻 Mi solución</h2>
+    </div>
+    <p>Si quieres ver el código completo resuelto o importarlo directamente en la pestaña <b>JavaScript</b> de MakeCode Arcade, abre el desplegable:</p>
+    <details class="solucion-dropdown">
+      <summary>Mostrar / Ocultar bloque de código de la solución</summary>
+      <button class="btn-copy" onclick="copiarCodigo()">📋 Copiar código</button>
+      <pre class="code-solution" id="codigo-solucion">controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    velX = 0
+    velY = 150
+})
+// ---------------------------------------------------------
+// FASE 2: La Brújula de Disparo en 4 Direcciones
+// ---------------------------------------------------------
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    velX = 150
+    velY = 0
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    velX = -150
+    velY = 0
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    for (let index = 0; index &lt; 3; index++) {
+        projectile = sprites.createProjectileFromSprite(img`
+            . . 5 5 . . 
+            . 5 4 4 5 . 
+            5 4 2 2 4 5 
+            5 4 2 2 4 5 
+            . 5 4 4 5 . 
+            . . 5 5 . . 
+            `, mySprite, velX + randint(-25, 25), velY + randint(-25, 25))
+    }
+})
+// ---------------------------------------------------------
+// FASE 5 (Extra): Teletransporte de Emergencia con Botón B
+// ---------------------------------------------------------
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (info.score() &gt;= 2) {
+        info.changeScoreBy(-2)
+        mySprite.startEffect(effects.trail, 200)
+        mySprite.setPosition(randint(20, 140), randint(20, 100))
+        scene.cameraShake(2, 100)
+    }
+})
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    velX = 0
+    velY = -150
+})
+// Colisión 1: El proyectil mata al enemigo
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprite.destroy()
+    otherSprite.destroy(effects.ashes, 200)
+    info.changeScoreBy(1)
+    // FASE 5 (Extra): Invocar al Jefe Calabaza al llegar a 15 puntos
+    if (info.score() == 15 &amp;&amp; !(jefeActivo)) {
+        jefeActivo = true
+        game.splash("¡CUIDADO!", "¡El Jefe Calabaza ha despertado!")
+        jefeCalabaza = sprites.create(img`
+            . . . . . . . 7 7 . . . . . . . 
+            . . . . . . 7 7 . . . . . . . . 
+            . . . 4 4 4 4 4 4 4 4 4 . . . . 
+            . . 4 4 4 4 4 4 4 4 4 4 4 . . . 
+            . 4 4 4 f 4 4 4 4 4 f 4 4 4 . . 
+            4 4 4 f f f 4 4 4 f f f 4 4 4 . 
+            4 4 4 f 5 f 4 4 4 f 5 f 4 4 4 . 
+            4 4 4 4 4 4 4 f 4 4 4 4 4 4 4 . 
+            4 4 4 4 4 4 f f f 4 4 4 4 4 4 . 
+            4 4 f 4 4 4 4 4 4 4 4 4 f 4 4 . 
+            4 4 f f 4 f 4 4 4 f 4 f f 4 4 . 
+            . 4 4 f f f f f f f f f 4 4 . . 
+            . . 4 4 f 4 f 4 f 4 f 4 4 . . . 
+            . . . 4 4 4 4 4 4 4 4 4 . . . . 
+            `, SpriteKind.Enemy)
+        jefeCalabaza.setPosition(80, 10)
+        jefeCalabaza.follow(mySprite, 65)
+    }
+})
+// Colisión 2: El enemigo toca al jugador y le quita 1 vida
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.fire, 200)
+    scene.cameraShake(4, 200)
+    info.changeLifeBy(-1)
+})
+let mySprite2: Sprite = null
+let jefeCalabaza: Sprite = null
+let jefeActivo = false
+let projectile: Sprite = null
+let velY = 0
+let velX = 0
+let mySprite: Sprite = null
+// ---------------------------------------------------------
+// FASE 1: El Cazador, Escenario e Info inicial
+// ---------------------------------------------------------
+// Fondo oscuro
+scene.setBackgroundColor(15)
+mySprite = sprites.create(img`
+    . . . . f f f f . . . . 
+    . . f f e e e e f f . . 
+    . f f e e e e e e f f . 
+    f f f f 4 e e e f f f f 
+    f f f 4 4 4 4 e e f f f 
+    f f f 4 4 4 4 4 e e f f 
+    f 4 e 4 4 4 4 4 4 e 4 f 
+    f 4 4 f f 4 4 f f 4 4 f 
+    f e 4 d d d d d d 4 e f 
+    . f e d d b b d d e f . 
+    . f f e 4 4 4 4 e f f . 
+    e 4 f b 1 1 1 1 b f 4 e 
+    4 d f 1 1 1 1 1 1 f d 4 
+    4 4 f 6 6 6 6 6 6 f 4 4 
+    . . . f f f f f f . . . 
+    . . . f f . . f f . . . 
+    `, SpriteKind.Player)
+controller.moveSprite(mySprite, 100, 100)
+mySprite.setStayInScreen(true)
+info.setLife(3)
+info.setScore(0)
+// Dirección de disparo por defecto al empezar (Derecha)
+velX = 150
+velY = 0
+// ---------------------------------------------------------
+// FASE 3: El Invocador de Fantasmas (Cada 1500 ms)
+// ---------------------------------------------------------
+game.onUpdateInterval(1500, function () {
+    mySprite2 = sprites.create(img`
+        . . f f f f f f . . 
+        . f 1 1 1 1 1 1 f . 
+        f 1 1 1 1 1 1 1 1 f 
+        f 1 f f 1 1 f f 1 f 
+        f 1 f f 1 1 f f 1 f 
+        f 1 1 1 1 1 1 1 1 f 
+        f 1 1 f f f f 1 1 f 
+        f 1 f 1 1 1 1 f 1 f 
+        f 1 1 1 1 1 1 1 1 f 
+        f . f . f . f . f . 
+        `, SpriteKind.Enemy)
+    // Aparece en posición aleatoria y rebota en paredes para no perderse
+    mySprite2.setPosition(randint(10, 150), randint(10, 110))
+    mySprite2.setBounceOnWall(true)
+    // Evitar que el fantasma nazca justo encima de la cabeza del jugador
+    if (Math.abs(mySprite2.x - mySprite.x) &lt; 30 &amp;&amp; Math.abs(mySprite2.y - mySprite.y) &lt; 30) {
+        mySprite2.setPosition(10, 10)
+    }
+    // IA de persecución activada a velocidad 40
+    mySprite2.follow(mySprite, 40)
+})</pre>
+    </details>
+  </div>
+
 </div>
+
+<script>
+  function copiarCodigo() {
+    const code = document.getElementById('codigo-solucion').innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.btn-copy');
+      btn.innerText = '✅ ¡Código copiado!';
+      setTimeout(() => { btn.innerText = '📋 Copiar código'; }, 2000);
+    });
+  }
+</script>
 
 </body>
 </html>
