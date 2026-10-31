@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Autodidacta: Halloween Survival</title>
+  <style>
+    :root {
+      --bg: #0f0e17;
+      --card: #1a1829;
+      --orange: #ff8906;
+      --purple: #7f5af0;
+      --green: #2cb67d;
+      --text: #fffffe;
+      --muted: #a7a9be;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 15px;
+    }
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      border: 2px solid var(--orange);
+      background: linear-gradient(135deg, #1a1829 0%, #2e1c2b 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    h1 { color: var(--orange); margin: 0 0 10px 0; font-size: 1.6rem; }
+    .btn-launch {
+      display: inline-block;
+      background: var(--orange);
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .step-card {
+      background: var(--card);
+      border-left: 5px solid var(--purple);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2e2b44;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .step-title { font-size: 1.2rem; font-weight: bold; color: var(--orange); margin: 0; }
+    /* Colores oficiales de los bloques de MakeCode */
+    .b-sprites { background: #4b7bec; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-ctrl { background: #d54325; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-scene { background: #6b7280; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-info { background: #cf4a9b; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-game { background: #8854d0; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-logic { background: #20bf6b; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+    .b-math { background: #a55eea; color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+
+    .recipe {
+      background: #0b0a10;
+      border: 1px solid #333;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.95rem;
+      margin: 10px 0;
+    }
+    .check-area {
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px dashed #333;
+      color: var(--green);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--green); }
+    ol { padding-left: 20px; }
+    li { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎃 MANUAL DE CAMPO: La Noche de los Muertos (Bloques)</h1>
+    <p>Sigue este manual paso a paso desde tu móvil para programar un <i>Survival Horror</i> completo desde cero usando lógica de bloques.</p>
+    <a class="btn-launch" href="https://arcade.makecode.com" target="_blank">1. ABRIR MOTOR MAKECODE ARCADE ↗</a>
+    <p style="font-size:0.85rem; color:var(--muted); margin-top:10px;">(Al entrar, pulsa en el cuadro morado <b>"+ Nuevo Proyecto"</b>, ponle un nombre y dale a Crear).</p>
+  </header>
+
+  <!-- FASE 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <h2 class="step-title">FASE 1: El Cazador y el Cementerio (10 min)</h2>
+    </div>
+    <p>Vamos a crear al personaje principal y darle movimiento con el joystick virtual del móvil.</p>
+    <ol>
+      <li>Al abrir tu proyecto verás un bloque verde llamado <b><code>al iniciar</code></b> (<i>on start</i>). Todo lo de esta fase va <b>dentro</b> de ese bloque.</li>
+      <li>Abre el menú <span class="b-scene">Escena (Scene)</span> &rarr; saca el bloque <b><code>fijar mapa de teselas a [ ]</code></b> (<i>set tilemap to</i>) y mételo en <code>al iniciar</code>.</li>
+      <li>Toca el cuadrado gris de ese bloque: se abrirá un editor de mapas. Dibuja un suelo oscuro, pon lápidas o muros en los bordes y pulsa el icono del <b>Muro rojo (Dibujar paredes)</b> para pintar sobre los bordes y que nadie pueda salirse del mapa. Dale a <b>Listo</b>.</li>
+      <li>Abre el menú <span class="b-sprites">Sprites</span> &rarr; saca el primer bloque: <b><code>fijar [mySprite] a sprite [ ] de tipo [Player]</code></b> y mételo debajo del mapa.</li>
+      <li>Toca el cuadrado gris al lado de <code>sprite</code>, ve arriba a la pestaña <b>Galería (Gallery)</b> y elige un personaje (un caballero, bruja o cazador).</li>
+      <li>Abre el menú <span class="b-ctrl">Controlador (Controller)</span> &rarr; saca el primer bloque: <b><code>mover [mySprite] con botones</code></b> y colócalo debajo.</li>
+      <li>Para que la cámara te siga por el cementerio: abre <span class="b-scene">Escena</span> &rarr; baja hasta el final y saca <b><code>cámara seguir a sprite [mySprite]</code></b>.</li>
+      <li>Abre <span class="b-info">Info</span> &rarr; saca <b><code>fijar vida a [3]</code></b> y <b><code>fijar puntuación a [0]</code></b>.</li>
+    </ol>
+    <div class="check-area">
+      <input type="checkbox"> <span>¡Fase 1 lista! Prueba a mover a tu personaje con el joystick de la consola del móvil.</span>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <h2 class="step-title">FASE 2: La Brújula de Disparo en 4 Direcciones (15 min)</h2>
+    </div>
+    <p><b>El problema de los juegos básicos:</b> Si disparas un proyectil normal, siempre sale hacia el mismo lado aunque mires hacia atrás. Vamos a usar <b>Variables de Memoria</b> para que tu arma recuerde hacia dónde caminaste por última vez.</p>
+    <ol>
+      <li>Abre el menú rojo <span class="b-ctrl">Variables</span> &rarr; pulsa <b>"Crear una variable"</b> y llámala <b><code>velX</code></b>. Crea otra más y llámala <b><code>velY</code></b>.</li>
+      <li>En tu bloque <code>al iniciar</code>, mete <b><code>fijar [velX] a [150]</code></b> (para que al empezar apunte a la derecha).</li>
+      <li>Ahora ve a <span class="b-ctrl">Controlador</span> y saca el bloque <b><code>al presionar botón [A]</code></b>.</li>
+      <li>Cambiamos el desplegable <code>[A]</code> por <b><code>[derecha]</code></b>. Dentro de él, mete dos bloques de Variables:
+        <div class="recipe">
+          al presionar botón [derecha]:<br>
+          &nbsp;&nbsp;fijar [velX] a [150]<br>
+          &nbsp;&nbsp;fijar [velY] a [0]
+        </div>
+      </li>
+      <li><b>Reto de lógica:</b> Crea otros 3 bloques iguales de <code>al presionar botón</code> para las otras 3 direcciones con estas coordenadas exactas:
+        <ul>
+          <li>Botón <b><code>[izquierda]</code></b> &rarr; <code>velX = -150</code>, <code>velY = 0</code></li>
+          <li>Botón <b><code>[arriba]</code></b> &rarr; <code>velX = 0</code>, <code>velY = -150</code></li>
+          <li>Botón <b><code>[abajo]</code></b> &rarr; <code>velX = 0</code>, <code>velY = 150</code></li>
+        </ul>
+      </li>
+      <li><b>Ahora programamos el botón de Disparo:</b> Saca otro bloque <span class="b-ctrl">al presionar botón [A]</span>.</li>
+      <li>Ve a <span class="b-sprites">Sprites</span> (sección Proyectiles) y mete dentro: <b><code>fijar [projectile] a proyectil [ ] desde [mySprite] con vx [50] vy [50]</code></b>.</li>
+      <li>Dibuja una bola de fuego o un ajo en el cuadrado gris del proyectil.</li>
+      <li><b>¡El toque maestro!</b> Abre <span class="b-ctrl">Variables</span>, saca la pastilla redonda <b><code>velX</code></b> y encájala donde pone <code>vx [50]</code>. Saca la pastilla <b><code>velY</code></b> y encájala donde pone <code>vy [50]</code>.</li>
+    </ol>
+    <div class="check-area">
+      <input type="checkbox"> <span>¡Fase 2 lista! Camina en las 4 direcciones y pulsa el botón A para comprobar que disparas hacia donde miras.</span>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <h2 class="step-title">FASE 3: El Invocador de Fantasmas (15 min)</h2>
+    </div>
+    <p>Vamos a crear un bucle temporal que invoque enemigos con Inteligencia Artificial de persecución.</p>
+    <ol>
+      <li>Abre <span class="b-game">Juego (Game)</span> &rarr; saca el bloque <b><code>en intervalo de [500] ms</code></b> y cambia el número a <b><code>1500</code></b> (1,5 segundos).</li>
+      <li>Dentro de él, mete de <span class="b-sprites">Sprites</span> el bloque: <b><code>fijar [mySprite2] a sprite [ ] de tipo [Player]</code></b>.</li>
+      <li><b>¡MUY IMPORTANTE!</b> En ese bloque, toca donde dice <code>de tipo [Player]</code> y cámbialo a <b><code>[Enemy]</code></b> (Enemigo). En el dibujo de la Galería, elige un <b>Fantasma, Esqueleto o Murciélago</b>.</li>
+      <li>Para que aparezca en cualquier rincón del mapa: ve a <span class="b-sprites">Sprites</span> &rarr; saca <b><code>fijar [mySprite2] posición a x [0] y [0]</code></b>.</li>
+      <li>Ve a <span class="b-math">Matemáticas (Math)</span> &rarr; saca dos bloques de <b><code>escoger al azar de [0] a [10]</code></b>. Pon uno en la <code>x</code> (de <b>10 a 150</b>) y otro en la <code>y</code> (de <b>10 a 110</b>).</li>
+      <li>Para activar su IA persecutoria: ve a <span class="b-sprites">Sprites</span> &rarr; saca <b><code>fijar [mySprite2] seguir a [mySprite]</code></b>. Pulsa el símbolo <b><code>(+)</code></b> de ese bloque y ponle velocidad <b><code>40</code></b>.</li>
+    </ol>
+    <div class="check-area">
+      <input type="checkbox"> <span>¡Fase 3 lista! Comprueba que cada 1,5 segundos aparecen monstruos y te persiguen por el mapa.</span>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <h2 class="step-title">FASE 4: Física de Impactos y Daño (15 min)</h2>
+    </div>
+    <p>Ahora mismo los disparos y los fantasmas se atraviesan sin hacerse nada. Programemos las colisiones (<i>Hitboxes</i>).</p>
+    <ol>
+      <li>Ve a <span class="b-sprites">Sprites</span> (baja hasta la sección <i>Superposiciones / Overlaps</i>) y saca un bloque grande:
+        <br><b><code>al [sprite] de tipo [Player] superponerse con [otherSprite] de tipo [Player]</code></b>.</li>
+      <li><b>Colisión 1 (Matar al monstruo):</b> Cambia el primer desplegable a <b><code>[Projectile]</code></b> y el segundo a <b><code>[Enemy]</code></b>.</li>
+      <li>Dentro de ese bloque mete:
+        <div class="recipe">
+          • De <span class="b-sprites">Sprites</span>: <b>destruir [otherSprite]</b> (arrastra la pastilla roja <i>otherSprite</i> de la cabecera del bloque aquí dentro, y pulsa el (+) para poner efecto Cenizas/Fuego).<br>
+          • De <span class="b-sprites">Sprites</span>: <b>destruir [sprite]</b> (para que la bala también desaparezca al chocar).<br>
+          • De <span class="b-info">Info</span>: <b>cambiar puntuación por [1]</b>.
+        </div>
+      </li>
+      <li><b>Colisión 2 (El monstruo te muerde):</b> Saca otro bloque igual de <b><code>al superponerse</code></b>. Esta vez deja el primero en <b><code>[Player]</code></b> y pon el segundo en <b><code>[Enemy]</code></b>.</li>
+      <li>Dentro de este segundo bloque mete:
+        <div class="recipe">
+          • De <span class="b-sprites">Sprites</span>: <b>destruir [otherSprite]</b> (destruye al fantasma que te tocó).<br>
+          • De <span class="b-scene">Escena</span>: <b>sacudir cámara por [4] píxeles durante [200] ms</b>.<br>
+          • De <span class="b-info">Info</span>: <b>cambiar vida por [-1]</b>.
+        </div>
+      </li>
+    </ol>
+    <div class="check-area">
+      <input type="checkbox"> <span>¡Fase 4 lista! Ya tienes un juego funcional completo: dispara, suma puntos y pierde vidas si te tocan.</span>
+    </div>
+  </div>
+
+  <!-- FASE 5: TECHO ABIERTO -->
+  <div class="step-card" style="border-left-color: var(--orange);">
+    <div class="step-header">
+      <h2 class="step-title">🔥 NIVEL JEFE (Para los más rápidos): El Boss y el Arma Triple</h2>
+    </div>
+    <p>Si has terminado antes de tiempo, implementa estas <b>3 mejoras de ingeniería</b> sin ayuda paso a paso (busca los bloques por deducción lógica):</p>
+    <ol>
+      <li><b>Escopeta de Dispersión (Bucle For):</b> En el botón <code>A</code>, mete un bucle de <span class="b-logic">Bucles (Loops)</span> de <b><code>repetir [3] veces</code></b> y suma un número al azar entre <code>-30</code> y <code>30</code> a las velocidades del proyectil para que cada vez que pulses A salgan 3 disparos en abanico.</li>
+      <li><b>Teletransporte de Emergencia (Botón B):</b> Programa el botón <b><code>[B]</code></b> para que cuando lo pulses tu personaje se teletransporte a una coordenada <code>X, Y</code> aleatoria del mapa pero te reste <code>2 puntos</code> de tu marcador (solo si tu puntuación es mayor que 2, usando un bloque <code>Si... entonces</code> de <span class="b-logic">Lógica</span>).</li>
+      <li><b>Aparición del Jefe Final:</b> Dentro del bloque donde sumas 1 punto al matar un fantasma, pon una condición: <b><code>Si [puntuación] = [15]</code></b>, crea un Sprite gigante de una Calabaza o Dragón que tenga velocidad <code>70</code> y te persiga sin poder ser destruido por balas normales.</li>
+    </ol>
+    <div class="check-area">
+      <input type="checkbox"> <span>¡Misión Experta Completada! Enseña tu pantalla al profesor.</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
